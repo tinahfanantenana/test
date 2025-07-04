@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<HTml>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>test </title>
+    </head>
+    <body>
+        <script>
+            function isPremier(n){
+                if(n==0 || n==1) {
+                   return false
+                }
+                for (let i=1 ; i<n ; i++){
+                    let modulo= n % i
+                    if(modulo===0){
+                        return false
+                    }
+                }
+                return true
+            }
+            console.log(isPremier(0))
+            console.log(isPremier(1))
+            console.log(isPremier(2))
+            console.log(isPremier(5))
+            console.log(isPremier(11))
+            console.log(isPremier(12))
+        </script>
+    </body>
+</HTml>
