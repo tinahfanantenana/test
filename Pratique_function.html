@@ -23,6 +23,41 @@
             console.error(`isPalindrome(${word}) aurait due renvoyer true`);
         }
     }
+
+    const students = [
+        {
+            name:'John',
+            note:[1, 20, 18, 19, 12]
+        },
+        {
+            name:'Jane',
+            note:[17, 18, 20, 13, 15]
+        },
+        {
+            name:'Sophie',
+            note:[17, 12, 14, 15, 13]
+        },
+        {
+            name:'marc',
+            note:[2, 3, 5, 8, 9]
+        },
+        {
+            name:'Manon',
+            note:[18, 17, 18, 19, 12]
+        }
+    ]
+
+    function avgnote(notes){
+        let somme=0;
+        for (let note of notes){
+            somme+=note;
+        }
+        return somme/notes.length;
+    }
+    
+    for (let student of students){
+       console.log(`${student['name']} a une moyenne de ${avgnote(student['note'])}`)
+    }
 </script>
 </head>
 <body>
