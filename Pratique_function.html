@@ -47,22 +47,36 @@
         }
     ]
 
-    function topTrois(tab){
-        //trier par ordre décroissant le moyenne
-        //afficher les trois premier
+    function topTrois(tableau){
+        // let moyenneEleve=[];
+        let troispremier=[];
+        // for (let tab of tableau){
+        //     moyenneEleve.push({name: tab['name'],moyenne: avgnote(tab['note']) });
+        // }
+        tableau.sort(CompareStudent);
+        return troisPremier=tableau.slice(0,3);
+        // for (let troisP of troisPremier){
+        //     console.log(troisP.name+':'+troisP.moyenne)
+        // }
+        
+       
     }
 
+    const CompareStudent=(a,b)=>b.moyenne-a.moyenne;
+    
     function avgnote(notes){
-        let somme=0;
-        for (let note of notes){
-            somme+=note;
-        }
+        let somme=notes.reduce((acc, curr)=>acc+curr,0);
         return somme/notes.length;
     }
     
     for (let student of students){
-       console.log(`${student['name']} a une moyenne de ${avgnote(student['note'])}`)
+        //on peut aussi créer une autre propriété moyenne directement sur chaque objet du tableau comme suite
+        student.moyenne= avgnote(student.note)
+        console.log(`${student.name} a une moyenne de ${student.moyenne}`)
     }
+    console.log(students)
+
+    console.log(topTrois(students))
 </script>
 </head>
 <body>
