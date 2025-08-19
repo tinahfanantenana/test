@@ -63,11 +63,15 @@
     for (let student of students){
         //on peut aussi créer une autre propriété moyenne directement sur chaque objet du tableau comme suite
         student.moyenne= avgnote(student.note)
-        console.log(`${student.name} a une moyenne de ${student.moyenne}`)
+        student.worst= Math.min(...(student.note))
+        student.best= Math.max(...(student.note))
     }
-    console.log(students)
 
-    console.log(topTrois(students))
+    let tops=topTrois(students)
+
+    for (let top of tops){
+        console.log(top.name+': Moyenne:'+top.moyenne+'; Meilleur note: '+top.best+'; Mauvaise note: '+top.worst);
+    }
 </script>
 </head>
 <body>
