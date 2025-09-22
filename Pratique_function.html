@@ -62,9 +62,9 @@
     
     for (let student of students){
         //on peut aussi créer une autre propriété moyenne directement sur chaque objet du tableau comme suite
-        student.moyenne= avgnote(student.note)
-        student.worst= Math.min(...(student.note))
-        student.best= Math.max(...(student.note))
+        student.moyenne= avgnote(student.note);
+        student.worst= Math.min(...(student.note));
+        student.best= Math.max(...(student.note));
     }
 
     let tops=topTrois(students)
@@ -72,9 +72,39 @@
     for (let top of tops){
         console.log(top.name+': Moyenne:'+top.moyenne+'; Meilleur note: '+top.best+'; Mauvaise note: '+top.worst);
     }
+
+    const phrase="Vous saver, moi je ne crois pas qu' il y ait de bonne ou de mauvaise situation. Moi, si je devais résumer ma vie aujourd'hui avec vous, je dirais que c'est d'abord des rencontres. Des gens qui m'ont tendu a main, peut-être à un moment où je ne pouvais, où j'etais seul chez moi. Et c'est assez curieux de se dire que les hasards , les rencontres forgent une destinée... Parce que quand on a le goût de la chose bien faite, le beau geste.";
+
+    function IsoleMot(tab){
+        let mot= tab.toLowerCase().split(' ');
+        return mot;
+    }
+    function TrieMot(tab){
+        let correct = [];
+        for (let mots of tab){
+            let mot= mots.replace(',','').replace('...','').replace('.','');
+            if (mot != "" ){
+                correct.push(mot);
+            }
+        }
+        return correct;
+    }
+    function Frequence(phrases){
+        const frequencies={};
+        const words= TrieMot(IsoleMot(phrases))
+        for (let word of words){
+            if(frequencies[word]){
+                frequencies[word]++;
+            }else{
+                frequencies[word]=1;
+            }
+        }
+        return frequencies;
+    }
+    console.log(Frequence(phrase));
 </script>
 </head>
 <body>
-    
+
 </body>
 </html>
