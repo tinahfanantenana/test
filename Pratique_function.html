@@ -75,11 +75,11 @@
 
     const phrase="Vous saver, moi je ne crois pas qu' il y ait de bonne ou de mauvaise situation. Moi, si je devais résumer ma vie aujourd'hui avec vous, je dirais que c'est d'abord des rencontres. Des gens qui m'ont tendu a main, peut-être à un moment où je ne pouvais, où j'etais seul chez moi. Et c'est assez curieux de se dire que les hasards , les rencontres forgent une destinée... Parce que quand on a le goût de la chose bien faite, le beau geste.";
 
-    function IsoleMot(tab){
+    function isoleMot(tab){
         let mot= tab.toLowerCase().split(' ');
         return mot;
     }
-    function TrieMot(tab){
+    function trieMot(tab){
         let correct = [];
         for (let mots of tab){
             let mot= mots.replace(',','').replace('...','').replace('.','');
@@ -89,9 +89,9 @@
         }
         return correct;
     }
-    function Frequence(phrases){
+    function frequence(phrases){
         const frequencies={};
-        const words= TrieMot(IsoleMot(phrases))
+        const words= trieMot(isoleMot(phrases))
         for (let word of words){
             if(frequencies[word]){
                 frequencies[word]++;
@@ -101,7 +101,29 @@
         }
         return frequencies;
     }
-    console.log(Frequence(phrase));
+
+    function conversionObjToArr(ob,k,v){
+        let tab=[]
+        for(let key in ob){
+            tab.push({[k]:key,[v]:ob[key]})
+        }
+        return tab
+    }
+
+    function motPlusFrequent(mots){
+        return [...mots].sort((a,b)=>b.count - a.count)
+    }
+
+    function motMoinsFrequent(mots){
+        return mots.slice().sort((a, b) => a.count - b.count)
+    }
+    
+    const frequenciesArrays= frequence(phrase)
+    let count=conversionObjToArr(frequenciesArrays, "word", "count")
+    let plusfrq= motPlusFrequent(count)
+    let moinsfrq=motMoinsFrequent(count)
+    console.log(plusfrq)
+    console.log(moinsfrq)
 </script>
 </head>
 <body>
