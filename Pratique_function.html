@@ -111,7 +111,7 @@
     }
 
     function motPlusFrequent(mots){
-        return [...mots].sort((a,b)=>b.count - a.count)
+        return [...mots].sort((a,b)=>b.count - a.count) //[...mots] crée un clone come la fonction slice
     }
 
     function motMoinsFrequent(mots){
