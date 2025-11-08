@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion_des_erreurs</title>
+    <script>
+        class Rectangle{
+            constructor(length, width){
+                if( typeof length !== 'number' || typeof width !== 'number'){
+                    throw new Error ('Length and width must be numbers');
+                }else if (length <=0 || width <=0){
+                    throw new Error ('Length and width must be positive numbers');
+                }
+
+                this.length=length;
+                this.width=width;
+            }
+
+            isValid(){
+                return this.length>0 && this.width>0;
+            }
+            perimeter(){
+                if (this.isValid()){
+                    return (this.length+this.width)*2;
+                }else{
+                    return 0;
+                }
+            }
+
+            area(){
+                if (this.isValid()){
+                    return this.length*this.width
+                }else{
+                    return 0;
+                }
+            }
+            isBiggerthan(shape){
+                return this.perimeter() > shape.perimeter();   
+            }
+        }
+        class Square extends Rectangle{
+            constructor(sideSquare){
+                super (sideSquare, sideSquare);
+            }
+        }
+
+        const r= new Rectangle(10,6);
+        console.log(r.perimeter())
+        const c=new Square(5);
+        console.log(c.perimeter())
+        const r1= new Rectangle(10,-2)
+        console.log(r1.isValid())
+        console.log(c.area())
+        console.log(r.area())
+        console.log(r1.area())
+        console.log(r1.perimeter())
+        console.log(c.isBiggerthan(r))
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pratique_class</title>
     <script>
-        class Book{
-            
-        }
         // class Rectangle{
         //     constructor(length, width){
         //         this.length=length;
@@ -54,7 +51,63 @@
         // console.log(r1.area())
         // console.log(r1.perimeter())
         // console.log(c.isBiggerthan(r))
+        class Book{
 
+            constructor(title, nbrPages){
+                this._title= title;
+                this._nbrPages= nbrPages;
+            }
+
+            nextPage(){
+                if(this._page<=this._nbrPages && this._page!==undefined){
+                    return this._page++;
+                }else if(this._page==undefined){
+                    return this._page=1;
+                }
+            }
+
+            close (){
+                return this._page= undefined
+            }
+
+            get page(){
+                if(this._page!==undefined){
+                    return this._page;
+                }
+                return 0;
+            }
+        }
+
+        class Librarie{
+            _lib=[]
+            addBook(book){
+                this._lib.push({name: book._title, nbrPages: book._nbrPages});
+            }
+            addBooks(book){
+                if(Array.isArray(book)){
+                    for(let b of book){
+                        this.addBook(b);
+                    }
+                }    
+            }
+            findBookByLetter(letter){
+                return this._lib.filter(b=> b.name.startsWith(letter));
+            }
+        }
+        const b=new Book ("Harry Potter", 500);
+        console.log(b.page);
+        b.nextPage();
+        console.log(b.page);
+        b.nextPage();
+        console.log(b.page);
+        b.close();
+        console.log(b.page);
+        const l=new Librarie();
+        l.addBook(b);
+        l.addBooks([new Book("Le seigneur des anneaux", 1000), new Book("Le hobbit", 300)]);
+        console.log(l);
+        l.findBookByLetter("H");
+        console.log(l.findBookByLetter("H"));
     </script>
 </head>
 <body>
