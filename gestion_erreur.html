@@ -17,23 +17,23 @@
                 this.width=width;
             }
 
-            isValid(){
-                return this.length>0 && this.width>0;
-            }
+            //isValid(){
+                // return this.length>0 && this.width>0;
+            // }
             perimeter(){
-                if (this.isValid()){
+                // if (this.isValid()){
                     return (this.length+this.width)*2;
-                }else{
-                    return 0;
-                }
+                // }else{
+                //     return 0;
+                // }
             }
 
             area(){
-                if (this.isValid()){
+                // if (this.isValid()){
                     return this.length*this.width
-                }else{
-                    return 0;
-                }
+                // }else{
+                //     return 0;
+                // }
             }
             isBiggerthan(shape){
                 return this.perimeter() > shape.perimeter();   
@@ -45,12 +45,26 @@
             }
         }
 
-        const r= new Rectangle(10,6);
-        console.log(r.perimeter())
-        const c=new Square(5);
+        let r, c, r1;
+        try {
+            r= new Rectangle(10,6);
+        } catch (e) {
+            console.log(e.message);
+        }
+        console.log(r.perimeter());
+
+        try {
+            c=new Square(5);    
+        } catch (e) {  
+            console.log(e.message);
+        }
         console.log(c.perimeter())
-        const r1= new Rectangle(10,-2)
-        console.log(r1.isValid())
+        try {
+            r1= new Rectangle(10,-2)
+        } catch (e) {
+            console.log(e.message)   
+        }
+        // console.log(r1.isValid())
         console.log(c.area())
         console.log(r.area())
         console.log(r1.area())
