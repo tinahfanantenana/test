@@ -10,8 +10,8 @@
        });
 
        function wait(ms){
-           return new Promise((resolve)=>{
-               setTimeout(resolve,ms);
+           return new Promise((resolve,reject)=>{
+               setTimeout(()=>resolve(ms),ms);
            });
        }
 
@@ -21,14 +21,26 @@
                    reject(new Error("Failed after "+ms+" ms"));
                },ms);
            }); 
+       }
 
          p.then((value)=>{
               console.log(value);
          });
 
-            wait(1000).then(()=>{
-                console.log("Waited 2 second");
-            });
+        async function main(){
+            try {
+                let p1= await wait(2000);
+                console.log(p1);
+                let p2= await waitAndFail(3000);
+                console.log(p2)
+                let p3= await wait(3000);
+                console.log(p3)
+            } catch (error) {
+                console.log('erreur capturé: '+error);
+            }
+            
+        } 
+        main().then(n=>console.log(n));
     </script>
 </head>
 <body>
