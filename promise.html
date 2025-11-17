@@ -8,9 +8,27 @@
        const p= new Promise((resolve,reject)=>{
            resolve(4);
        });
+
+       function wait(ms){
+           return new Promise((resolve)=>{
+               setTimeout(resolve,ms);
+           });
+       }
+
+       function waitAndFail(ms){
+           return new Promise((resolve,reject)=>{
+               setTimeout(()=>{
+                   reject(new Error("Failed after "+ms+" ms"));
+               },ms);
+           }); 
+
          p.then((value)=>{
               console.log(value);
          });
+
+            wait(1000).then(()=>{
+                console.log("Waited 2 second");
+            });
     </script>
 </head>
 <body>
