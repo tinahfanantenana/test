@@ -1,0 +1,1 @@
+export const sum= (t)=>t.reduce((acc, item)=>acc+item, 0)
