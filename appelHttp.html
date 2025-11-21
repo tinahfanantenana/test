@@ -6,27 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Appel Http avec fetch()</title>
     <script>
-        async function fetchUser(){
-            const r= await fetch('https://jsonplaceholder.typicode.com/posts', {
-                method:'POST',
-                headers:{
-                    "Accept": "application/json",
-                    "Content-type":"application/json"
-                },
-                body: JSON.stringify({title:"Mon premier titre"})
-            });
-            if (r.ok===true){
-                return r.json();
-            }
-            throw new Error ('Impossible de contacter ')
-        }
-
-        fetchUser()
+        const a= new AbortController();
+        Promise.race([ fetch('https://jsonplaceholder.typicode.com/posts/?_limit=5_delay=2000', {
+                // method:'POST',
+                // headers:{
+                //     "Accept": "application/json",
+                //     "Content-type":"application/json"
+                // },
+                // body: JSON.stringify({title:"Mon premier titre"})
+                signal: a.signal
+            }),
+            fetch('https://jsonplaceholder.typicode.com/users/?_limit=3', {
+                // method:'POST',
+                // headers:{
+                //     "Accept": "application/json",
+                //     "Content-type":"application/json"
+                // },
+                // body: JSON.stringify({title:"Mon premier titre"})
+                signal: a.signal
+            })]        
+        )
+        
         // fetch('https://jsonplaceholder.typicode.com/users')
         // .then(r=>r.json())
-        .then(body=>console.log(body))
-        // .then(r=> console.log(r) )
+        .then(r=>r.json())
+        .then( console.log )
         .catch(e=>console.log(e));
+        //si je veut vraiment intérompre la requête je peut utiliser la méthode abort
     </script>
 </head>
 <body>
