@@ -107,9 +107,14 @@
         for(let key in ob){
             tab.push({[k]:key,[v]:ob[key]})
         }
-        return tab
+        return tab    
     }
 
+    /** * 
+     * Fonction qui trie les mots par fréquence décroissante
+     * @param {Array} mots 
+     * @returns {Array} tableau trié des mots par fréquence décroissante
+     */
     function motPlusFrequent(mots){
         return [...mots].sort((a,b)=>b.count - a.count) //[...mots] crée un clone come la fonction slice
     }
@@ -120,7 +125,7 @@
     
     const frequenciesArrays= frequence(phrase)
     let count=conversionObjToArr(frequenciesArrays, "word", "count")
-    let plusfrq= motPlusFrequent(count)
+    let plusfrq=motPlusFrequent(count)
     let moinsfrq=motMoinsFrequent(count)
     console.log(plusfrq)
     console.log(moinsfrq)
