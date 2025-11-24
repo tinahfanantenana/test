@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>objetDate</title>
+    <script>
+        const today= new Date()
+        function addDays(date, days){
+            // let newDate= new Date();
+            // let pp= date.getDate()+days;
+            // newDate.setDate(pp);
+            // return newDate;
+            const newDate= new Date (date.getTime());
+            newDate.setDate(newDate.getDate()+days);
+            return newDate;
+        }
+
+        // function addInterval(date, n, unit){
+        //     const newDate= new Date(date.getTime());
+        //     switch (unit){
+        //         case MONTHS:
+        //             newDate.setMonth(newDate.getMonth()+n);
+        //             return newDate ;
+        //             break;
+        //         case "years":
+        //             newDate.setFullYear(newDate.getFullYear()+n);
+        //             return newDate ;
+        //             break;
+        //         case "days":
+        //             newDate.setDate(newDate.getDate()+n);
+        //             return newDate ;
+        //             break;
+        //         default:
+        //            'resultat non pris en compte';
+        //     }
+        // }
+
+        // const MONTHS= 'months';
+        // const DAYS= 'days';
+        // const YEARS= 'years'; 
+        const MONTHS= 1;
+        const DAYS= 2;
+        const YEARS= 0; 
+        function addInterval(date, interval){
+            const parts= [
+                date.getFullYear(),    
+                date.getMonth(), 
+                date.getDate(),
+                date.getHours(),
+                date.getMinutes(),
+                date.getSeconds(),
+                date.getMilliseconds()
+            ]
+            for (const [unit, value] of Object.entries(interval)){
+                parts[unit]+=value;
+            }
+            return new Date (...parts);
+        }
+        
+
+        let tomorrow = addDays(today, 10);
+        console.log(today)
+        console.log(tomorrow)
+        // let future= addInterval(today, 5, DAYS);
+        // console.log(future);
+        let future= addInterval(today ,{
+            [DAYS]:1,
+            [MONTHS]:2
+        });
+        console.log(future);
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
