@@ -15,50 +15,41 @@
 // const div= document.createElement('div');
 // div.innerHTML="Bonjour les gens"
 // ul.insertAdjacentElement('afterbegin', div);
-const lastP=document.querySelector('#lastPosts');
-// lastP.insertAdjacentHTML('beforebegin','<h2>Loading...</h2>');
-const divPost= document.createElement('div');
-lastP.append(divPost);
-await fetch('https://jsonplaceholder.typicode.com/posts/?_limit=5',{
-    headers:{
-        Accept:'application/json'
-    }
-});   
-
-await setTimeout(()=>{},3000);
-
-
-
-const postApi= fetch('https://jsonplaceholder.typicode.com/posts/?_limit=5',{
-    headers:{
-        Accept:'application/json'
-    }
-});   
-postApi
-.then(response=>response.json())
-.then(posts=>{
-setTimeout(()=>{
-    document.querySelector('h2').remove();
-    for([property, value] of Object.entries(posts)){
-        const postDiv=document.createElement('div');
-        postDiv.innerHTML=`
-        <h2>${value.title}</h2>
-        <p>${value.body}</p>
+function creatArticle(post){
+    const article = document.createElement('article');
+        article.innerHTML = `
+            <h2>${post.title}</h2>
+            <p>${post.body}</p>
         `;
-        divPost.append(postDiv);
-    }
+        return article;
+}
+
+async function loadPosts() {
+    const lastP = document.querySelector('#lastPosts');
+
+    const divPost = document.createElement('div');
+    divPost.innerHTML = '<h2>Loading...</h2>';
     lastP.append(divPost);
-    console.log(posts);
-},3000)
-    // posts.forEach(post=>{
-    //     const postDiv=document.createElement('div');
-    //     postDiv.innerHTML=`
-    //     <h2>${post.title}</h2>
-    //     <p>${post.body}</p>
-    //     `;
-    //     divPost.appendChild(postDiv);
-    // });
-    })
-.catch(error=>console.log('erreur :'+ error.message));
 
+    // attendre 3 secondes
+    await new Promise(resolve => setTimeout(()=>{
+        // Remove loading
+        divPost.innerHTML = "";
+        resolve()}, 3000));
 
+    // fetch
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=5', {
+        headers: { Accept: 'application/json' }
+    });
+
+    const posts = await response.json();
+
+    
+
+    // afficher les posts
+    posts.forEach(post => {
+        divPost.append(creatArticle(post));
+    });
+}
+
+loadPosts();
