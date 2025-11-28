@@ -34,31 +34,42 @@ function createElementWithText(tagName, content){
 }
 
 async function loadPosts() {
-    const lastP = document.querySelector('#lastPosts');
+    try{
+        const lastP = document.querySelector('#lastPosts');
 
-    const divPost = document.createElement('div');
-    divPost.innerHTML = '<h2>Loading...</h2>';
-    lastP.append(divPost);
-
-    // attendre 3 secondes
-    await new Promise(resolve => setTimeout(()=>{
-        // Remove loading
-        divPost.innerHTML = "";
-        resolve()}, 3000));
-
-    // fetch
-    const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=5', {
-        headers: { Accept: 'application/json' }
-    });
-
-    const posts = await response.json();
-
+        const divPost = document.createElement('div');
+        divPost.innerHTML = '<h2>Loading...</h2>';
+        lastP.append(divPost);
     
+        // attendre 3 secondes
+        await new Promise(resolve => setTimeout(()=>{
+            // Remove loading
+            divPost.innerHTML = "";
+            resolve()}, 3000));
+    
+        // fetch
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=5', {
+            headers: { Accept: 'application/json' }
+        });
+        
+        if(!response.ok){
+            throw new Error('erreru serveur');
+        }
 
-    // afficher les posts
-    posts.forEach(post => {
-        divPost.append(creatArticle(post));
-    });
+        const posts = await response.json();
+    
+        
+    
+        // afficher les posts
+        posts.forEach(post => {
+            divPost.append(creatArticle(post));
+        });
+    }catch(e){
+        divPost.innerHTML="Impossible de chargé les articles"
+        divPost.style.color="red";
+        console.log()
+    }
+    
 }
 
 loadPosts();
