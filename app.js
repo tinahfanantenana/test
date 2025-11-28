@@ -17,11 +17,20 @@
 // ul.insertAdjacentElement('afterbegin', div);
 function creatArticle(post){
     const article = document.createElement('article');
-        article.innerHTML = `
-            <h2>${post.title}</h2>
-            <p>${post.body}</p>
-        `;
-        return article;
+    //Pour raison de sécutité cette methode d'ajout d"élément n'est pas tres récommandé puisque si l'Api n'est pas fiable ou s'il y a des injection HTML dans leurs contenu ceci risque de causé des problème ou engendre des erreurs
+        // article.innerHTML = `
+        //     <h2>${post.title}</h2>
+        //     <p>${post.body}</p>
+        // `;
+    article.append(createElementWithText('h2',post.title));
+    article.append(createElementWithText('p',post.body));
+    return article;
+}
+
+function createElementWithText(tagName, content){
+    const element = document.createElement(tagName);
+    element.innerHTML=content;
+    return element;
 }
 
 async function loadPosts() {
