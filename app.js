@@ -70,7 +70,7 @@ async function loadPosts() {
         });
         
         if(!response.ok){
-            throw new Error('erreru serveur');
+            throw new Error('erreur serveur');
         }
 
         const posts = await response.json();

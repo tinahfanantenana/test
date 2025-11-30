@@ -5,16 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./bootstrap/bootstrap.min.css">
     <title>ToDoList</title>
+    <script type="module">
+        import {ToDoList} from './toDolist.js'
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            let ul = document.querySelector('#taskList');
+
+            let task = new ToDoList(ul);
+            
+            let btnAjoutTask= document.querySelector("#addTaskBtn");
+
+            btnAjoutTask.addEventListener('click',()=>{
+                let value=document.querySelector('#taskInput').value.trim();
+
+                if(value!=""){
+                    task.addTask(value);
+                    value="";
+                }
+                
+            })
+
+         });
+
+         
+    </script>
+    
 </head>
 <body>
     <div class="container pt-5">
         <h1 class="text-center">To Do List</h1>
-        <from class="d-flex pt-4">
+        <form class="d-flex pt-4">
             <div class="input-group">
                 <input type="text" id="taskInput" class="form-control" placeholder="Ajouter une tâche...">
-                <button id="addTaskBtn" class="btn btn-primary">Ajouter</button>
+                <button id="addTaskBtn" type="button" class="btn btn-primary">Ajouter</button>
             </div>
-        </from>
+        </form>
         
 
         <div class="btn-group mt-4">
@@ -24,14 +49,10 @@
         </div>  
 
         <ul id="taskList" class="list-group mt-3">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                Tâche 1
-                <button class="btn btn-success btn-sm">Fait</button>
-            </li>
-            <!-- Les tâches seront ajoutées ici -->
+            
         </ul>
         
     </div>
-<script src="./bootstrap/bootstrap.bundle.min.js"></script>  
+    <script src="./bootstrap/bootstrap.bundle.min.js"></script>  
 </body>
 </html>
