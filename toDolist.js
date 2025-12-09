@@ -24,27 +24,33 @@ export class ToDoList {
                 this.elementsParent.append(this.createTask(task.id,task.title));
             }
         } catch (error) {
-            console.log(error)
-        }
+            console.log(error) 
+        } 
         
 
     }
 
+    /**
+     * fonction pour créer une tache
+     * @param {number} id 
+     * @param {string} task 
+     * @returns {HtmlElement}
+     */
     createTask(id, task){
         const toDo= document.createElement('li');
         toDo.setAttribute('class','list-group-item d-flex justify-content-between align-items-center');
 
-        const divToDo=document.createElement('div')
+        const divToDo=document.createElement('div');
 
         const toDochecker= document.createElement('input');
-        this.setAttributes(toDochecker,{value:id,class:"form-check-input",type:"checkbox"});
+        this.setAttributes(toDochecker,{value:id,class:"task-check",type:"checkbox", id:'idInput'});
 
         const toDoContent=document.createElement('label');
         toDoContent.setAttribute("class", "form-check-label ps-1");
         toDoContent.innerHTML=task
 
         const toDoDelete=document.createElement('button');
-        toDoDelete.setAttribute('class', 'btn btn-danger btn-sm');
+        this.setAttributes(toDoDelete,{class:'btn btn-danger btn-sm',type:'button', id: "delete-btn"});
         toDoDelete.innerText = "Supprimer";
 
         divToDo.append(toDochecker,toDoContent);
@@ -66,6 +72,13 @@ export class ToDoList {
         }
     }
 
+
+
+    /**
+     * fonction pour ajouter une tache
+     * @param {string} task 
+     * @returns {void}
+     */
     addTask(task) {
         try {
             let id=1;
@@ -85,16 +98,58 @@ export class ToDoList {
         }
     }
 
-    
-    deleteTask(taskId) {
-        
+
+    /**
+     * 
+     * @param {HtmlElement} task
+     * @returns {void}
+     */
+    deleteTask(task) {
+        task.remove();
     }
+
 
     markTaskAsDone(taskId) {
-        
+        const task=this.elementsParent.querySelector(`input[value='${taskId}']`);
+        if (task){
+            task.toggleAttribute('checked');
+        }       
     }
 
-    getTasks(filter) {
+
+    displayTasks(tasks) {
+        this.elementsParent.innerHTML = "";
+
+        tasks.forEach(task => {
+            this.elementsParent.appendChild(task);
+        });
+    }
+
+
+    sawTasks(elements){
+        const tasks=[];
         
+        elements.forEach(element => {
+            if (element.tagName==='LI'){
+                tasks.push(this.elementsParent.innerHTML=element);
+            } else if (element.tagName==='INPUT'){
+                let listItem= element.parentElement.parentElement;
+                tasks.push(this.elementsParent.innerHTML=listItem);
+            }
+        });
+        return tasks;
+    }
+    
+    getTasks(filter) {
+        switch(filter){
+            case 'all':
+                return this.sawTasks(this.elementsParent.querySelectorAll('li'));
+            case 'done':
+                return this.sawTasks(this.elementsParent.querySelectorAll('input:checked'));
+            case 'toDo':
+                return this.sawTasks(this.elementsParent.querySelectorAll('input:not(:checked)'));
+            default:
+                throw new Error('Unknown filter');
+        }
     }
 }

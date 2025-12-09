@@ -16,15 +16,35 @@
             let btnAjoutTask= document.querySelector("#addTaskBtn");
 
             btnAjoutTask.addEventListener('click',()=>{
-                let value=document.querySelector('#taskInput').value.trim();
+                let input=document.querySelector('#taskInput')
+                let value=input.value.trim();
 
                 if(value!=""){
                     task.addTask(value);
-                    value="";
+                    input.value="";
                 }
                 
             })
 
+            //Délégation d'événement pour la suppression des taches car les boutons sont crées dynamiquement donc on ne peut pas leur attacher un écouteur d'événement directement sans qu'ils existent dans le DOM au moment de l'attachement.
+            ul.addEventListener('click', (e)=>{
+                const liElement = e.target.closest('li');
+
+                if(e.target && e.target.id == "delete-btn") {
+                    task.deleteTask(liElement);    
+                }       
+
+                
+            });
+            
+            let btnFilter= document.querySelector(".btn-group");
+            btnFilter.addEventListener('click',(e)=>{
+                if(e.target && e.target.tagName ==="BUTTON"){
+                    const filterId = e.target.id;
+                    const filteredTasks = task.getTasks(filterId);
+                    task.displayTasks(filteredTasks);
+                }
+            });
          });
 
          
@@ -43,9 +63,9 @@
         
 
         <div class="btn-group mt-4">
-            <button class="btn btn-primary ">Toute</button>
-            <button class="btn btn-primary ms-1">A faire</button>
-            <button class="btn btn-primary ms-1">Faits</button>
+            <button id="all" class="btn btn-primary ">Toute</button>
+            <button id="toDo" class="btn btn-primary ms-1">A faire</button>
+            <button id="done" class="btn btn-primary ms-1">Faits</button>
         </div>  
 
         <ul id="taskList" class="list-group mt-3">

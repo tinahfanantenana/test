@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../bootstrap/bootstrap.min.css">
+    <title>Todo List</title>
+    <script src="../Controllers/app.js" type="module" defer></script>
+    <style>
+        .hide-done .is-completed ,
+        /* : pour pointé avec contition en CSS*/
+        .hide-todo .todo:not(.is-completed) { 
+            display: none!important;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="cntainer pt-5" id="todolist">
+       
+    </div>
+</body>
+</html>
