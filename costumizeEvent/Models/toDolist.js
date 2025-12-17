@@ -50,6 +50,17 @@ export class ToDolist{
         buttons.forEach(button=>{
             button.addEventListener('click',(e)=>this.#toggleFilter(e));
         });
+
+        this.#listElement.addEventListener('delete', ({detail : todo})=>{
+            this.#toDos=this.#toDos.filter(t=>t.id !== todo.id);
+            console.log(this.#toDos);
+        })
+
+        this.#listElement.addEventListener('toggle', ({detail : todo})=>{
+            todo.completed=!todo.completed;
+            console.log(this.#toDos);
+        })
+
         
     }
 
@@ -111,10 +122,10 @@ class ToDoItem{
     /**
      * 
      * @type {toDo}
-     */
+     */ 
     constructor(todo){
         const id=todo.id;
-
+        this.todo=todo;
         const template= document.getElementById('task-template');
         const clone=template.content.cloneNode(true);
 
@@ -142,12 +153,17 @@ class ToDoItem{
         this.toggle(checkbox);
         li.addEventListener('click',(e)=>{
             if(e.target.tagName==='BUTTON'){
-                li.remove();
+                this.remove(e);
             }});
 
         checkbox.addEventListener('change',e=>this.toggle(e.currentTarget))
-
         
+        try {
+            this.#element.addEventListener('delete', e=>{ console.log(e.detail.title)});
+        } catch (error) {
+            console.log(error);
+        }
+        console.log(this.todo);
     }
 
     
@@ -157,6 +173,8 @@ class ToDoItem{
      */
     remove(e){
         e.preventDefault();
+        const event= new CustomEvent('delete',{detail:this.todo, bubbles:true});
+        this.#element.dispatchEvent(event);
         this.#element.remove();
     }
 
@@ -170,10 +188,11 @@ class ToDoItem{
         } else {
             this.#element.classList.remove('is-completed');
         }
+        const event= new CustomEvent('toggle',{detail:this.todo,bubbles:true});
+        this.#element.dispatchEvent(event);
     }
 
     /**
-     * 
      * @return {HTMLElement} 
      */
     get element(){
