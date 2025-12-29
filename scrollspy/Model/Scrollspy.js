@@ -1,30 +1,38 @@
 export class Scrollspy{
-    constructor(references,contents){
-        this.references=references;
-        this.contens=contents;
-    }
-
     /**
-     * 
+     *fonction pour activer et desactivé un menu cliqué 
      * @param {PointerEvent} e 
      */
     menuActive(event){
         const current=event.currentTarget;
-        const parent=current.parentElement;
+        this.activeMenu(current);
+    }
+
+    /** 
+     * fonction pour afficher un contenue
+     * @param {elementHTML} target 
+     */
+    viewContent(target){
+        const observer=new IntersectionObserver((entries)=>{
+            for(let entry of entries){
+                entry.isIntersecting=true;
+            }
+        });
+        observer.observe(target)
+    }
+
+    /**
+     *fonction pout assigner l'attribut active au menu 
+     * @param {HTMLElement} target 
+     */
+    activeMenu(target){
+        const parent=target.parentElement;
 
         const active=parent.querySelector('.active');
         if(active){
             active.classList.remove('active');
         }
-        current.classList.add("active");
+        target.classList.add("active");
     }
 
-    /** 
-     * 
-     * @param {IntersectionObserverEntry[]} entries 
-     */
-    viewContent(target){
-        const observer=new IntersectionObserver(e=> this.viewContent(e));
-        observer.intection(target)
-    }
 }
