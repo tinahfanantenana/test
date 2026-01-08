@@ -28,7 +28,7 @@ export class ViewRenderer{
      * @param {string} path 
      */
     async loadTemplate(target,path){
-        let template= await fetch(path)
+        let template= await fetch(path);
         let result=await template.text();
 
         target.innerHTML=await result;

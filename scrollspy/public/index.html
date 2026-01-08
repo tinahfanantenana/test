@@ -5,12 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../bootstrap/bootstrap.min.css">
     <title>Scrollspy</title>
-    <script src="../Controller/app.js" type="module" defer></script>
+    <script src="../app.js" type="module" defer></script>
+    <style>
+        html ,body{
+            scroll-behavior: smooth;
+        }
+        #contents > div {
+            scroll-margin-top: var(--bs-navbar-height, 56px);
+        }
+    </style>
 </head>
 <body>
     <div class="container ">
         
     </div>
-    <script type="script" src="../../bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../../bootstrap/bootstrap.bundle.min.js"></script>
 </body>
 </html>
