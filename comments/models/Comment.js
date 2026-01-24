@@ -15,15 +15,15 @@ export class Comment{
         this.#name=name;
     }
 
-    getid(){
+    get id(){
         return this.#id;
     }
 
-    getname(){
+    get name(){
         return this.#name;
     }
 
-    getbbody(){
+    get body(){
         return this.#body;
     }
 
@@ -31,7 +31,7 @@ export class Comment{
         return {
             id: this.#id,
             name: this.#name,
-            body: this.body
+            body: this.#body
         }
     }
 }

@@ -1,6 +1,6 @@
 export class ForDom{
-    
-    
+
+
     /**
      * 
      * @param {string} tag 
@@ -28,28 +28,26 @@ export class ForDom{
    }
 
    /**
-    * permet de charger un template html et de l'inserer dans le DOM
+    * permet de charger un template html
     * @param {string} path 
     * @param {string} id
-    * @param {HTMLElement} target 
-    * @param {string} position 
     */
-   async loadTemplate(path, target){
+   async loadTemplate(path){
         const reponse= await fetch(path);
-        const templatetostring= await reponse.text();
-
-        target.innerHTML=await templatetostring;
+        const templatetostring=await reponse.text();
    }
    
-   cloneTemplate(id){
+    /**
+     * permet de cloner un template
+     * @param {String} id 
+     * @returns {DocumentFragment}
+     */
+    cloneTemplate(id){
         const template=document.getElementById(id);
         if(!template){
             throw new Error(`Le template ${id} est introuvable`);
         }
         return template.content.cloneNode(true);
-   }
-
-
-
+    }
 
 }
