@@ -4,30 +4,27 @@ import {CommentItem} from '/CommentItem.js';
  * 
  */
 export class CommentLists{
-    #comments=[];
     #lists=[];
     #target;
-    #template;
     #element;
     constructor (comments, element){
         this.#comments=comments;
         this.#element=element;
         this.#target=element.dataset.target;
-        this.#template=element.dataset.template;
     }
 
-    renderlist(){
-        for (let comment of this.#comments){
-            let newcomment=new CommentItem();
+    renderlist(clone){
+        if(!this.#target){
+            throw new Error('element introuvable');
         }
-        return this.#lists;
+        for (let comment of this.#comments){
+            let newComment=new CommentItem(comment,this.#element);
+            this.#lists.append(newComment.render(clone));
+        }
+        return this.#target.append(this.#lists);
     }
+
     addComment(newComment){
-        return this.#comments.unshift(newComment);  
+        return this.#target.prepend(newComment);
     }
-
-    getComments(){
-        return this.comments;
-    }
-
 }
