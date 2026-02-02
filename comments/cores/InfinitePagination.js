@@ -43,6 +43,11 @@ export class InfinitePagination{
         } catch (error) {
             this.#element.style.display='none';
             const e = this.#onError('impossible de charger les contenus');
+            e.addEventListener('close', (e)=>{
+                this.element.style.removeProperty('display');
+
+            } )
+            this.#element.append(e);
         }finally{
             this.#loading=false;
         }

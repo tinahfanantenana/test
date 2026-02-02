@@ -12,6 +12,7 @@ export function showError(message){
     template.querySelector('button').addEventListener('click', e=>{
         e.preventDefault();
         template.remove();
+        template.dispatchEvent(new CustomEvent('close'));
     })
     return template;
 }
