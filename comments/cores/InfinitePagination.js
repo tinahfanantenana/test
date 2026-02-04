@@ -32,9 +32,9 @@ export class InfinitePagination{
         
         try {
             this.#loading=true;
-            const url= this.#buildURL;
+            const url= this.#buildURL();
             const items=await this.#onLoad(url);
-            if (!items||items.length()==0){
+            if (!items||items.length==0){
                 this.#element.style.display='none';
                 this.#observer.disconnect();
                 return;

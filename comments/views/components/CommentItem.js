@@ -19,9 +19,9 @@ export class CommentItem{
     render(clone){
         const template= clone(this.#template); 
         const body=template.querySelector(this.#elements.body);
-        const name=template.querySeectore(this.#elements.username);
-        body.texteContent=this.#comment.body;
-        name.texteContent=this.#comment.name;
+        const name=template.querySelector(this.#elements.username);
+        body.textContent=this.#comment.body;
+        name.textContent=this.#comment.name;
         return template;
     }
 }

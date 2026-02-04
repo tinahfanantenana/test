@@ -19,7 +19,7 @@ export class CommentLists{
         }
         for (let comment of this.#comments){
             let newComment=new CommentItem(comment,this.#element);
-            this.#lists.append(newComment.render(clone));
+            this.#target.append(newComment.render(clone));
         }
         return this.#target.append(this.#lists);
     }
