@@ -1,10 +1,12 @@
-import {Comment} from '../../models/Comment.js';
-
 /**
  * @typedef {object} Comments
  * 
  */
 export class CommentItem{
+    /**
+     * 
+     */
+    #comment;
     #elements;
     #template;
     constructor(comment,element){
@@ -15,7 +17,11 @@ export class CommentItem{
     }
 
 
-
+    /**
+     * 
+     * @param {Function} clone 
+     * @returns 
+     */
     render(clone){
         const template= clone(this.#template); 
         const body=template.querySelector(this.#elements.body);

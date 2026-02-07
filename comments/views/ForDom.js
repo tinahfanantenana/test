@@ -41,6 +41,11 @@ export class ForDom{
         target.innerHTML=await templatetostring;
    }
    
+   /**
+    * 
+    * @param {string} id 
+    * @returns 
+    */
    cloneTemplate(id){
         const template=document.getElementById(id);
         if(!template){

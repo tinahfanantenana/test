@@ -1,17 +1,24 @@
-/**
- * @typedef {object} Comments
- * 
- */
 export class Comment{
+    /**
+     * @type {number}
+     */
     #id;
     #postId;
+    
+    /**
+     * @type {string}
+     */
     #name;
     #email;
+
+    /**
+     * @type {string}
+     */
     #body;
 
-    constructor(id, name, body){
+    constructor({id, name, body}={}){
         this.#body=body;
-        this.#id=id;
+        this.#id=id??Date.now();
         this.#name=name;
     }
 

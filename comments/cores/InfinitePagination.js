@@ -1,4 +1,3 @@
-import { ApiService } from "../services/ApiService";
 export class InfinitePagination{
     #onLoad;
     #onError;
