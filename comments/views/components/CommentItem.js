@@ -4,7 +4,7 @@
  */
 export class CommentItem{
     /**
-     * 
+     * @param {CommentData} comment 
      */
     #comment;
     #elements;

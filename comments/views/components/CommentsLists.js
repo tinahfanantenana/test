@@ -1,13 +1,33 @@
+    /**
+    * @callback CloneTemplate
+    * @param {string} id
+    * @returns {HTMLElement}
+    */
 import {CommentItem} from '/CommentItem.js';
 /**
  * @typedef {Object} CommentData
  * 
  */
 export class CommentLists{
+    /**
+     * @type {HTMLElement}
+     */
     #target;
+
+    /**
+    * @type {HTMLElement} - contenant les dataset 
+    */
     #element;
+
+    /**
+    * @type {comments[]} -listes des commentaires manipulés par la classe
+    */
     #comments;
+
+    
+    /** @type {CloneTemplate} */
     #clone;
+
     constructor (comments, element, clone){
         this.#comments=comments;
         this.#element=element;
@@ -19,7 +39,7 @@ export class CommentLists{
     }
 
     /**
-     * 
+     * fonction qui ajoute un commentaire dans la liste
      * @param {()=>cloneTemplate} clone 
      * @returns {void}
      */
@@ -31,7 +51,7 @@ export class CommentLists{
     }
 
     /**
-     * 
+     * fonction pour ajouter un commentaire à la liste
      * @param {CommentData} newComment 
      * @returns {void}
      */

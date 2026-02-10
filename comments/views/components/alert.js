@@ -1,7 +1,7 @@
 import { ForDom } from "../ForDom.js";
 
 /**
- * 
+ * fonction pour afficher l'erreur 
  * @param {string} message 
  * @returns {HTMLElement}
  */
