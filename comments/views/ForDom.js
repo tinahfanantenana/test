@@ -47,7 +47,7 @@ export class ForDom{
     * @returns 
     */
    cloneTemplate(id){
-        const template=document.getElementById(id);
+        const template=document.querySelector(id);
         if(!template){
             throw new Error(`Le template ${id} est introuvable`);
         }

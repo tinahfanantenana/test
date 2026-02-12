@@ -6,7 +6,7 @@ export class CommentForm{
     
     /**
      * fonction permettant d'ecouter l'évènement d'ajout d'un nouvel commentaire
-     * @param {()=>addComment} addComment 
+     * @param {(data:{name:string, body:string})=>void} addComment 
      */
     onSubmit(addComment){
         this.#formElement.addEventListener('submit', (e)=>{

@@ -5,7 +5,6 @@ import { ApiService } from "../services/ApiService.js";
 import { showError } from "../views/components/alert.js";
 import { ForDom } from "../views/ForDom.js";
 import { CommentForm } from "../views/components/CommentForm.js";
-import { showError } from "../views/components/alert.js";
 
     /*instancation de la class forDom */
 const forDom =new ForDom();
@@ -13,10 +12,10 @@ const clone = (id)=>forDom.cloneTemplate(id);
 
     /*----ELEMENTS------*/ 
 const element= document.querySelector('.js-infinite-pagination');
-const formElement= document.querySelector('js-form-fetch');
+const formElement= document.querySelector('.js-form-fetch');
 
 
-if (!formElement || !paginationElement) {
+if (!formElement || !element) {
     throw new Error("Éléments DOM requis introuvables");
 }
 
@@ -25,9 +24,27 @@ const comments=[];
 const listeComm=new CommentLists(comments, element, clone);
 
 /*-----------VALEUR INITIAL------*/
-({
+async function initialPagination(){
+    try {
+        const apiService=new ApiService(element.dataset.endpoint,{});
+        const data=await apiService.request();
 
-})()
+        if (!data || data==0)return;
+
+        const newComment= data.map(item=> new Comment({
+            id:item.id,
+            name:item.name,
+            body:item.body
+        }));
+
+        comments.push(...newComment);
+        return listeComm.renderlist();
+    } catch (error) {
+        console.log(error);
+        const errorInit= showError("erreur d'initialisation");
+        element.after(errorInit);
+    }
+} 
     /*-----EVENEMENT POUR L'AJOUT D'UN NOUVEAU COMMENTAIRE--------*/
 const commentForm= new CommentForm(formElement);
 commentForm.onSubmit((data)=>{
@@ -35,7 +52,7 @@ commentForm.onSubmit((data)=>{
 
     // mise à jour du state central
     comments.unshift(comment);
-    
+
     listeComm.addComment(comment);
 });
 
@@ -44,13 +61,24 @@ const afficheErreur= (message) => showError (message);
 
 
 /*----GENERER LE CONTENUE ET LA PAGINATION INFINIE---------*/
-new InfinitePagination({
-    element: element,
-    onError: afficheErreur,
-    onLoad:  async (url)=>{
-        const apiService= new ApiService(url,{});
-        const data= await apiService.request();
-        const newComment= data.map((item)=>new Comment({id:item.id,name:item.name,body:item.body}));
-        comments.push(...newComment);
-    }
-})
+async function infinitePagination(){
+    new InfinitePagination({
+        element: element,
+        onError: afficheErreur,
+        onLoad:  async (url)=>{
+            const apiService= new ApiService(url,{});
+            const data= await apiService.request();
+            const newComment= data.map((item)=>new Comment({id:item.id,name:item.name,body:item.body}));
+            comments.push(...newComment);
+            newComment.forEach(comment =>
+                listeComm.addComment(comment)
+            );
+            return newComment;
+        }
+    })
+}
+
+(async function init(){
+    await initialPagination();
+    await infinitePagination();
+})()

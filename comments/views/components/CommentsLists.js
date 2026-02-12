@@ -3,7 +3,7 @@
     * @param {string} id
     * @returns {HTMLElement}
     */
-import {CommentItem} from '/CommentItem.js';
+import {CommentItem} from './CommentItem.js';
 /**
  * @typedef {Object} CommentData
  * 
