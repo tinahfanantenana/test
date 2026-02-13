@@ -19,17 +19,11 @@ export class CommentLists{
     */
     #element;
 
-    /**
-    * @type {comments[]} -listes des commentaires manipulés par la classe
-    */
-    #comments;
-
     
     /** @type {CloneTemplate} */
     #clone;
 
-    constructor (comments, element, clone){
-        this.#comments=comments;
+    constructor (element, clone){
         this.#element=element;
         this.#target=document.querySelector(element.dataset.target);
         if(!this.#target){
@@ -40,23 +34,36 @@ export class CommentLists{
 
     /**
      * fonction qui ajoute un commentaire dans la liste
-     * @param {()=>cloneTemplate} clone 
+     * @param {object} comments 
      * @returns {void}
      */
-    renderlist(){
-        for (let comment of this.#comments){
+    renderlist(comments){
+        for (let comment of comments){
             let newComment=new CommentItem(comment,this.#element);
             this.#target.append(newComment.render(this.#clone));
         }
     }
 
+     /**
+     * fonction qui ajoute un commentaire en dessous la liste
+     * @param {object} newComment
+     * @returns {void}
+     */
+    appendComment(newComment){
+        let comment=new CommentItem(newComment,this.#element);
+        return this.#target.append(comment.render(this.#clone));
+    }
+
+
     /**
-     * fonction pour ajouter un commentaire à la liste
+     * fonction pour ajouter un commentaire en dessus de la liste
      * @param {CommentData} newComment 
      * @returns {void}
      */
-    addComment(newComment){
+    prependComment(newComment){
         let comment=new CommentItem(newComment,this.#element);
         return this.#target.prepend(comment.render(this.#clone));
     }
+
+
 }

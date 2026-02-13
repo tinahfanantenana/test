@@ -21,12 +21,15 @@ if (!formElement || !element) {
 
     /*----LISTES DES COMMENTAIRES-----------*/
 const comments=[];
-const listeComm=new CommentLists(comments, element, clone);
+const listeComm=new CommentLists(element, clone);
 
 /*-----------VALEUR INITIAL------*/
 async function initialPagination(){
     try {
-        const apiService=new ApiService(element.dataset.endpoint,{});
+        const newurl=new URL(element.dataset.endpoint);
+        newurl.searchParams.set('_page',1);
+        const url=newurl.toString();
+        const apiService=new ApiService(url,{});
         const data=await apiService.request();
 
         if (!data || data==0)return;
@@ -38,7 +41,8 @@ async function initialPagination(){
         }));
 
         comments.push(...newComment);
-        return listeComm.renderlist();
+        return listeComm.renderlist(comments);
+
     } catch (error) {
         console.log(error);
         const errorInit= showError("erreur d'initialisation");
@@ -53,7 +57,7 @@ commentForm.onSubmit((data)=>{
     // mise à jour du state central
     comments.unshift(comment);
 
-    listeComm.addComment(comment);
+    listeComm.prependComment(comment);
 });
 
     /*-----------AFFICHAGE DE L'ERREUR-----------*/
@@ -61,24 +65,21 @@ const afficheErreur= (message) => showError (message);
 
 
 /*----GENERER LE CONTENUE ET LA PAGINATION INFINIE---------*/
-async function infinitePagination(){
-    new InfinitePagination({
-        element: element,
-        onError: afficheErreur,
-        onLoad:  async (url)=>{
-            const apiService= new ApiService(url,{});
-            const data= await apiService.request();
-            const newComment= data.map((item)=>new Comment({id:item.id,name:item.name,body:item.body}));
-            comments.push(...newComment);
-            newComment.forEach(comment =>
-                listeComm.addComment(comment)
-            );
-            return newComment;
-        }
-    })
-}
+const infinitePagination= new InfinitePagination({
+    element: element,
+    onError: afficheErreur,
+    onLoad:  async (url)=>{
+        const apiService= new ApiService(url,{});
+        const data= await apiService.request();
+        const newComment= data.map((item)=>new Comment({id:item.id,name:item.name,body:item.body}));
+        comments.push(...newComment);
+        newComment.forEach(comment => {
+            listeComm.appendComment(comment);
+        });
+        return newComment;
+    }
+});
 
 (async function init(){
     await initialPagination();
-    await infinitePagination();
 })()

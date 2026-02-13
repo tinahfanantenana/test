@@ -30,7 +30,7 @@ export class InfinitePagination{
     #endpoint;
 
     /** @type {number} */
-    #page=1;
+    #page=2;
 
     /**
      * 
