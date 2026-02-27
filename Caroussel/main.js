@@ -1,3 +1,5 @@
+
+
 class Carousel{
     #element;
     #options;
@@ -9,12 +11,13 @@ class Carousel{
     /**
      * @param {HTMLElement} element 
      * @param {object} option
-     * @param {number} option.slideToScroll
-     * @param {number} option.slideVisible
+     * @param {number} [option.slideToScroll=1]
+     * @param {number} [option.slideVisible=1]
+     * @param {boolean} [options.loop=false] 
      */
     constructor(element, options={}){
         this.#element=element;
-        this.#options={slideToScroll:1,slideVisible:1, ...options};
+        this.#options={slideToScroll:1,slideVisible:1,loop:false, ...options};
         this.#currentItem=0;
         const childs=[...element.children];
         this.#root= this.#createDivWithClass('carousel');
@@ -29,6 +32,7 @@ class Carousel{
         });
         this.#setStyle();
         this.#createNavigation();
+        this.#HideSlider();
     }
     
 
@@ -64,8 +68,9 @@ class Carousel{
      */
     #goTo(index){
         if(index<0){
+            this.length=this.#items.length;
             index=this.#items.length-this.#options.slideVisible;
-        }else if(index>=this.#items.length || this.#items[this.#currentItem+this.#options.slideVisible]===undefined){
+        }else if( index>=this.#items.length || (this.#items[this.#currentItem+this.#options.slideVisible]===undefined&&index>this.#currentItem )){
             index=0;
         }
         let translateX=index*-100/this.#items.length;

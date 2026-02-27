@@ -107,3 +107,6 @@ body{
     cursor: pointer; 
 }
 
+.carousel__prev:hover, .carousel__next:hover{
+    transform: scale(1.2);
+}
