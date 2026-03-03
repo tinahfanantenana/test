@@ -7,6 +7,12 @@ class Carousel{
     #items;
     #root;
     #currentItem;
+    #callBackForSlide;
+
+    /**
+     * @callback hideSlider
+     * @param {number} index
+     */
 
     /**
      * @param {HTMLElement} element 
@@ -19,6 +25,7 @@ class Carousel{
         this.#element=element;
         this.#options={slideToScroll:1,slideVisible:1,loop:false, ...options};
         this.#currentItem=0;
+        this.#callBackForSlide=null;
         const childs=[...element.children];
         this.#root= this.#createDivWithClass('carousel');
         this.#carouselContainer= this.#createDivWithClass('carousel__container');
@@ -32,7 +39,9 @@ class Carousel{
         });
         this.#setStyle();
         this.#createNavigation();
-        this.#HideSlider();
+        if( this.#callBackForSlide){
+            this.#callBackForSlide(0);
+        };
     }
     
 
@@ -52,6 +61,20 @@ class Carousel{
         this.#root.append(prevButtom);
         nextButtom.addEventListener('click',this.#next.bind(this));
         prevButtom.addEventListener('click',this.#prev.bind(this));
+        if (this.#options.loop==true){
+            this.#hideSlider(index=>{
+                if(index==0){
+                    prevButtom.classList.add('caroussel_prev_hidden');
+                }else{
+                    prevButtom.classList.remove('caroussel_prev_hidden');
+                }
+                if(index>=this.#items.length || this.#items[this.#currentItem+this.#options.slideVisible]===undefined){
+                    nextButtom.classList.add('caroussel_next_hidden');
+                }else{
+                    nextButtom.classList.remove('caroussel_next_hidden');
+                }
+            });
+        }
     }
 
     #prev(){
@@ -76,6 +99,17 @@ class Carousel{
         let translateX=index*-100/this.#items.length;
         this.#carouselContainer.style.transform = "translate3d("+translateX+"%, 0, 0)";
         this.#currentItem=index;
+        if( this.#callBackForSlide){
+            this.#callBackForSlide(index)
+        };
+    }
+
+    /**
+     * 
+     * @param {hideSlider} cb 
+     */
+    #hideSlider(cb){
+        this.#callBackForSlide=cb;
     }
 
     /**
@@ -95,14 +129,18 @@ class Carousel{
 document.addEventListener('DOMContentLoaded', function(){
     new Carousel(document.querySelector('.carousel1'),{
         slideToScroll:2,
-        slideVisible: 3
+        slideVisible: 3,
+        loop:false
     })
 
     new Carousel(document.querySelector('.carousel2'),{
         slideToScroll:2,
-        slideVisible: 2
+        slideVisible: 2,
+        loop:true
     })
 
-    new Carousel(document.querySelector('.carousel3'),{})
+    new Carousel(document.querySelector('.carousel3'),{
+        loop:true
+    })
 }) 
 

@@ -63,7 +63,7 @@ body{
 .carousel__container{
     display: flex;
     flex-direction: row;
-    transition: transform 0.3s;
+    transition: transform 0.3s, opacity 0.3s;
 }
 
 .item__image {
@@ -109,4 +109,8 @@ body{
 
 .carousel__prev:hover, .carousel__next:hover{
     transform: scale(1.2);
+}
+
+.caroussel_prev_hidden, .caroussel_next_hidden{
+    opacity: 0;
 }
