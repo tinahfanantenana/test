@@ -34,6 +34,7 @@ class Carousel{
         this.#root= this.#createDivWithClass('carousel');
         this.#carouselContainer= this.#createDivWithClass('carousel__container');
         this.#root.appendChild(this.#carouselContainer);
+        this.#root.setAttribute('tabindex','0');
         element.appendChild(this.#root);
         this.#items=childs.map( (child) => {
             const item=this.#createDivWithClass('carousel__item');
@@ -48,6 +49,13 @@ class Carousel{
         };
         this.#carousselOnMobile();
         window.addEventListener("resize",this.#carousselOnMobile.bind(this))
+        this.#root.addEventListener('keyup', e=>{
+            if(e.key==='ArrowRight'){
+                this.#next();
+            }else if(e.key==='ArrowLeft'){
+                this.#prev();
+            }
+        })
     }
     
 
