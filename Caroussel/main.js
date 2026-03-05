@@ -22,7 +22,11 @@ class Carousel{
      * @param {boolean} [options.loop=false] 
      */
     constructor(element, options={}){
+        if (!element) {
+            throw new Error("Carousel: element not found");
+        }
         this.#element=element;
+        this.isMobile=false;
         this.#options={slideToScroll:1,slideVisible:1,loop:false, ...options};
         this.#currentItem=0;
         this.#callBackForSlide=null;
@@ -42,15 +46,17 @@ class Carousel{
         if( this.#callBackForSlide){
             this.#callBackForSlide(0);
         };
+        this.#carousselOnMobile();
+        window.addEventListener("resize",this.#carousselOnMobile.bind(this))
     }
     
 
     /**fonction pour modifier le CSS des contenue du carousel dinamiquement selon la ratio */
     #setStyle(){
-        const ratio=this.#items.length/this.#options.slideVisible;
+        const ratio=this.#items.length/this.#slideVisible;
         this.#carouselContainer.style.width=(ratio*100)+'%';
         this.#items.forEach((item) => {
-            item.style.width=(100/this.#options.slideVisible/ratio)+'%';
+            item.style.width=(100/this.#slideVisible/ratio)+'%';
         });
     }
 
@@ -61,14 +67,14 @@ class Carousel{
         this.#root.append(prevButtom);
         nextButtom.addEventListener('click',this.#next.bind(this));
         prevButtom.addEventListener('click',this.#prev.bind(this));
-        if (this.#options.loop==true){
+        if (this.#options.loop==false){
             this.#hideSlider(index=>{
                 if(index==0){
                     prevButtom.classList.add('caroussel_prev_hidden');
                 }else{
                     prevButtom.classList.remove('caroussel_prev_hidden');
                 }
-                if(index>=this.#items.length || this.#items[this.#currentItem+this.#options.slideVisible]===undefined){
+                if(index>=this.#items.length || this.#items[this.#currentItem+this.#slideVisible]===undefined){
                     nextButtom.classList.add('caroussel_next_hidden');
                 }else{
                     nextButtom.classList.remove('caroussel_next_hidden');
@@ -78,11 +84,11 @@ class Carousel{
     }
 
     #prev(){
-        this.#goTo(this.#currentItem-this.#options.slideToScroll)
+        this.#goTo(this.#currentItem-this.#slideToScroll)
     }
 
     #next(){
-        this.#goTo(this.#currentItem+this.#options.slideToScroll)
+        this.#goTo(this.#currentItem+this.#slideToScroll)
     }
 
     /**
@@ -91,9 +97,8 @@ class Carousel{
      */
     #goTo(index){
         if(index<0){
-            this.length=this.#items.length;
-            index=this.#items.length-this.#options.slideVisible;
-        }else if( index>=this.#items.length || (this.#items[this.#currentItem+this.#options.slideVisible]===undefined&&index>this.#currentItem )){
+            index=this.#items.length-this.#slideVisible;
+        }else if( index>=this.#items.length || (this.#items[this.#currentItem+this.#slideVisible]===undefined&&index>this.#currentItem )){
             index=0;
         }
         let translateX=index*-100/this.#items.length;
@@ -104,6 +109,24 @@ class Carousel{
         };
     }
 
+    #carousselOnMobile(){
+        const onMobile=window.innerWidth<800;
+        if(onMobile!==this.isMobile){
+            this.isMobile=onMobile;
+            this.#setStyle();
+            if( this.#callBackForSlide){
+                this.#callBackForSlide(this.#currentItem)
+            };
+        }
+    }
+
+    get #slideToScroll(){
+        return this.isMobile ? 1 : this.#options.slideToScroll;
+    }
+
+    get #slideVisible(){
+        return this.isMobile ? 1: this.#options.slideVisible;
+    }
     /**
      * 
      * @param {hideSlider} cb 
@@ -130,17 +153,15 @@ document.addEventListener('DOMContentLoaded', function(){
     new Carousel(document.querySelector('.carousel1'),{
         slideToScroll:2,
         slideVisible: 3,
-        loop:false
+        loop:true
     })
 
     new Carousel(document.querySelector('.carousel2'),{
         slideToScroll:2,
         slideVisible: 2,
-        loop:true
     })
 
     new Carousel(document.querySelector('.carousel3'),{
-        loop:true
     })
 }) 
 
