@@ -6,6 +6,7 @@ class Carousel{
     #carouselContainer;
     #items;
     #root;
+    #onResize;
     #currentItem;
     #callBackForSlide;
 
@@ -19,18 +20,23 @@ class Carousel{
      * @param {object} option
      * @param {number} [option.slideToScroll=1]
      * @param {number} [option.slideVisible=1]
-     * @param {boolean} [options.loop=false] 
+     * @param {boolean} [option.loop=false] 
+     * @param {boolean} [option.pagination=false]
      */
     constructor(element, options={}){
         if (!element) {
             throw new Error("Carousel: element not found");
         }
+
+
         this.#element=element;
         this.isMobile=false;
-        this.#options={slideToScroll:1,slideVisible:1,loop:false, ...options};
+        this.#options={slideToScroll:1,slideVisible:1,loop:false,pagination:false, ...options};
         this.#currentItem=0;
         this.#callBackForSlide=null;
         const childs=[...element.children];
+
+
         this.#root= this.#createDivWithClass('carousel');
         this.#carouselContainer= this.#createDivWithClass('carousel__container');
         this.#root.appendChild(this.#carouselContainer);
@@ -44,18 +50,22 @@ class Carousel{
         });
         this.#setStyle();
         this.#createNavigation();
-        if( this.#callBackForSlide){
+        if(this.#callBackForSlide){
             this.#callBackForSlide(0);
         };
         this.#carousselOnMobile();
-        window.addEventListener("resize",this.#carousselOnMobile.bind(this))
+        this.#onResize = this.#carousselOnMobile.bind(this);
+        window.addEventListener("resize", this.#onResize);
         this.#root.addEventListener('keyup', e=>{
-            if(e.key==='ArrowRight'){
+            if(e.key==='ArrowRight' || e.key==='Right'){
                 this.#next();
-            }else if(e.key==='ArrowLeft'){
+            }else if(e.key==='ArrowLeft' || e.key==='Left'){
                 this.#prev();
             }
         })
+        if(this.#options.pagination){
+            this.#createPagination();
+        }
     }
     
 
@@ -64,7 +74,7 @@ class Carousel{
         const ratio=this.#items.length/this.#slideVisible;
         this.#carouselContainer.style.width=(ratio*100)+'%';
         this.#items.forEach((item) => {
-            item.style.width=(100/this.#slideVisible/ratio)+'%';
+            item.style.width=(100/this.#slideVisible)/ratio+'%';
         });
     }
 
@@ -91,6 +101,18 @@ class Carousel{
         }
     }
 
+    #createPagination(){
+        const pagination=this.#createDivWithClass('caroussel_pagination');
+        this.#root.append(pagination);
+        const buttons=[];
+        for( let i=0; i< this.#items.length; i=i+this.#slideToScroll){
+            const button=this.#createDivWithClass('caroussel_pagination_button');
+            button.addEventListener('click',()=>this.#goTo(i));
+            pagination.appendChild(button);
+            buttons.push(button);
+        }
+    }
+
     #prev(){
         this.#goTo(this.#currentItem-this.#slideToScroll)
     }
@@ -105,14 +127,22 @@ class Carousel{
      */
     #goTo(index){
         if(index<0){
-            index=this.#items.length-this.#slideVisible;
+            if(this.#options.loop){
+                index=this.#items.length-this.#slideVisible;
+            }else{
+                return
+            }
         }else if( index>=this.#items.length || (this.#items[this.#currentItem+this.#slideVisible]===undefined&&index>this.#currentItem )){
-            index=0;
+            if(this.#options.loop){
+                index=0;
+            }else{
+                return
+            }
         }
         let translateX=index*-100/this.#items.length;
         this.#carouselContainer.style.transform = "translate3d("+translateX+"%, 0, 0)";
         this.#currentItem=index;
-        if( this.#callBackForSlide){
+        if(this.#callBackForSlide){
             this.#callBackForSlide(index)
         };
     }
@@ -156,20 +186,25 @@ class Carousel{
 
 }
 
-
-document.addEventListener('DOMContentLoaded', function(){
+const onRead=function(){
     new Carousel(document.querySelector('.carousel1'),{
         slideToScroll:2,
         slideVisible: 3,
-        loop:true
+        loop:true,
+        pagination:true
     })
 
     new Carousel(document.querySelector('.carousel2'),{
         slideToScroll:2,
         slideVisible: 2,
+        pagination:true
     })
 
     new Carousel(document.querySelector('.carousel3'),{
     })
-}) 
+}
+
+
+
+document.addEventListener('DOMContentLoaded', onRead) 
 

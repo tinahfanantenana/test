@@ -114,3 +114,28 @@ body{
 .caroussel_prev_hidden, .caroussel_next_hidden{
     opacity: 0;
 }
+
+.caroussel_pagination{
+    position:absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+}
+
+.caroussel_pagination_button{
+    background-color: #fff;
+    width:10px;
+    height:10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 3px;
+    box-shadow: 0 2px 5px #3232321a;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.caroussel_pagination_button--active,.caroussel_pagination_button:hover{
+    transform: scale(1.4);
+}
+
