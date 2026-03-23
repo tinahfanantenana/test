@@ -121,6 +121,7 @@ body{
     bottom: 0;
     right: 0;
     text-align: center;
+    display:none;
 }
 
 .caroussel_pagination_button{
@@ -139,3 +140,8 @@ body{
     transform: scale(1.4);
 }
 
+@media screen and (min-width: 800px) {
+    .caroussel_pagination{
+        display:block;
+    }
+}
