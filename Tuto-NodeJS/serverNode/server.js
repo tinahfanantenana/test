@@ -2,7 +2,6 @@ import http from 'node:http';
 import {readFile} from 'fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname,join } from 'node:path';
-import { parse } from 'node:url';
 
 const __filename=fileURLToPath(import.meta.url);
 const __dirname= dirname(__filename);
@@ -22,7 +21,7 @@ server.on('request',async (request,response)=>{
             data=data.replace("{{name}}",name);
             response.writeHead(200);
             return response.end(data);
-        }
+        } 
         catch(err){
             response.writeHead(404,{
                 "Content-type":"text/html;charset=utf-8"
