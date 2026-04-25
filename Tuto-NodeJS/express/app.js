@@ -2,8 +2,10 @@ import express, { response } from 'express';
 
 let app= express();
 
+app.set('view engine', 'ejs');
+
 app.get('/',(req,resp)=>{
-    resp.send('salut tu es à la racine');
+    resp.render('page/index',{test:'test pour moi'})
 })
 
 app.get('/demo', (request, response)=>{

@@ -12,6 +12,7 @@
     "dev": "node --watch server.js"
   },
   "dependencies": {
+    "body-parser": "^2.2.2",
     "bootstrap-icons": "^1.13.1",
     "ejs": "^5.0.2",
     "express": "^5.2.1"

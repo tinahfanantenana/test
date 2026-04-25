@@ -1,13 +1,18 @@
-import express from 'express';
+    import express from 'express';
 
-const app= express();
+    const app= express();
 
-app.set('view engine', 'ejs');
+    app.set('view engine', 'ejs');
 
-app.use(express.static('public'));
+    app.use(express.static('public'));
+    app.use(express.urlencoded())
+    app.use(express.json())
 
-app.get('/', (req, resp)=>{
-    resp.render('pages/index',{test:"salut"});
-})
+    app.get('/', (req, resp)=>{
+        resp.render('pages/index');
+    })
 
-app.listen(8000)
+    app.post('/',(req,resp)=>{
+        console.log(req.body);
+    })
+    app.listen(8000)
