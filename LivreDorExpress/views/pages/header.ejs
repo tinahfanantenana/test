@@ -9,3 +9,8 @@
     <title>Document</title>
 </head>
 <body>
+    <%if(locals.error){%>
+        <div class="alert alert-danger container mt-3" role="alert">
+           <%= locals.error %>
+        </div>
+    <% } %>
