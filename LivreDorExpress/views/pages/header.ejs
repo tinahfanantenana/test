@@ -9,8 +9,13 @@
     <title>Document</title>
 </head>
 <body>
-    <%if(locals.error){%>
+    <%if(flash && flash.error){%>
         <div class="alert alert-danger container mt-3" role="alert">
-           <%= locals.error %>
+           <%= flash.error %>
+        </div>
+    <% } %>
+    <%if(flash && flash.success){%>
+        <div class="alert alert-success container mt-3" role="alert">
+           <%= flash.success %>
         </div>
     <% } %>

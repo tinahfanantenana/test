@@ -1,5 +1,7 @@
     import express from 'express';
     import session from 'express-session';
+    import flash from './middleware/flash.js';
+    
 
     const app= express();
 
@@ -17,21 +19,19 @@
         saveUninitialized: true,
         cookie: { secure: process.env.NODE_ENV === 'production' }
     }));
-
+    app.use(flash);
     
     app.get('/', (req, resp)=>{
-        console.log(req.session.error);
-        resp.locals.error=req.session.error;
-        req.session.error=undefined;
+        console.log(req.session);
         resp.render('pages/index');
     });
 
     app.post('/',(req,resp)=>{
         if(req.body.message===''|| req.body.message===undefined){
-            req.session.error='il y a une errreur'
+            req.flash('error',"il y a une erreur");
             resp.redirect('/');
         }else{
-            console.log(req.body.message);
+            req.flash('success',"Merci");
             resp.redirect('/');
         }
     });
