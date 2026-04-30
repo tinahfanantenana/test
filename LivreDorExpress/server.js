@@ -1,7 +1,7 @@
     import express from 'express';
     import session from 'express-session';
     import flash from './middleware/flash.js';
-    
+    import { Message } from './models/Message.js';
 
     const app= express();
 
@@ -21,18 +21,30 @@
     }));
     app.use(flash);
     
-    app.get('/', (req, resp)=>{
-        console.log(req.session);
-        resp.render('pages/index');
+    app.get('/', async (req, resp)=>{
+        try {
+            const mess=new Message;
+            resp.locals.allMessage= await  mess.all();
+            resp.render('pages/index');  
+        } catch (error) {
+            console.log(error)
+        }
     });
 
-    app.post('/',(req,resp)=>{
+    app.post('/',async (req,resp)=>{
         if(req.body.message===''|| req.body.message===undefined){
             req.flash('error',"il y a une erreur");
             resp.redirect('/');
         }else{
-            req.flash('success',"Merci");
-            resp.redirect('/');
+            try {
+                const mess=new Message;
+                await mess.create(req.body.message);
+                req.flash('success',"Merci");
+                resp.redirect('/');
+            } catch (error) {
+                console.log(error);
+            }
+            
         }
     });
 

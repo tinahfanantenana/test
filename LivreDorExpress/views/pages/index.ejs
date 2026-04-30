@@ -8,6 +8,15 @@
             </div>
             <button class="bi bi-send btn btn-primary"> Envoyer</button>
         </form>
+        
+        <div class="container mt-3">
+            <h3>Commentaires</h3>
+            <% for (message of locals.allMessage) {%>
+                <div class="bi bi-person"></div>
+                <div><%= message.created_at%></div>
+                <div><%= message.content %></div>
+            <% } %>
+        </div>
     </div>
     
 <%- include ('footer') %>
