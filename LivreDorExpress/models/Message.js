@@ -14,9 +14,21 @@ export class Message{
     }
 
     async all(){
-        const [rows]= await connection.execute('SELECT * FROM message');
-        rows.forEach(row=>{row.created_at=this.formatRelativeDate(row.created_at)});
+        const [rows]=await connection.execute('SELECT * FROM message');
+        rows.forEach(row=>{
+            row.created_at=this.formatRelativeDate(row.created_at);
+        })
         return rows;
+    }
+
+    async find(id){
+        const [rows]= await connection.execute('SELECT * FROM message WHERE id=? limit 1',[id]);
+        if (rows.length === 0) {
+            return null; 
+        }
+        const message=rows[0];
+        message.created_at=this.formatRelativeDate(message.created_at);
+        return message;
     }
 
     formatRelativeDate(date) {

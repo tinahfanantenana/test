@@ -11,7 +11,7 @@
     };
 
     app.use(express.static('public'));
-    app.use(express.urlencoded());
+    app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
     app.use(session({
         secret: 'secret',
@@ -31,6 +31,24 @@
         }
     });
 
+    app.get('/message/:id',async (req,res)=>{
+        try {
+            const id=parseInt(req.params.id);
+            if(isNaN(id)){
+                return res.status(400).send('ID invalide');
+            }
+            const messageModel=new Message();
+            const message= await messageModel.find(id);
+            if(!message) {
+                return res.status(404).send('Message non trouvé');
+            }
+            res.locals.message=message;
+            res.render('message/show');
+        } catch (error) {
+            console.log(error);
+            res.status(500).send('Erreur serveur');
+        }
+    })
     app.post('/',async (req,resp)=>{
         if(req.body.message===''|| req.body.message===undefined){
             req.flash('error',"il y a une erreur");
