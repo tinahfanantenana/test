@@ -1,10 +1,14 @@
 const express = require('express');
-const boduParser= require('body-parser');
+const userRoute=require('./routers/userRouter');
+const authRoute=require('./routers/authRouter')
 
 
 const server=express();
 
-server.use(boduParser.urlencoded({extended: true}))
+server.use(express.urlencoded({extended: true}))
+
+server.use('/auth', authRoute);
+server.use('/user',userRoute);
 
 server.get('/',function(req,res){
     res.setHeader('Content-type','text/html');
@@ -12,4 +16,4 @@ server.get('/',function(req,res){
     res.send('<h1>Bonjour</h1>');
 })
 
-server.listen(8000,()=>{console.log('serveur en ecoute ')});
+server.listen(8000,()=>{console.log('serveur en ecoute ')}); 
