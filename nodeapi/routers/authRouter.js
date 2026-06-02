@@ -6,6 +6,6 @@ const authCtrl= require('../controllers/authCtrl');
 const apiRouter=express.Router();
 
 apiRouter.post('/register/',registerValidator,authCtrl.register);
-apiRouter.post('/login/',loginValidator,authCtrl.login);
+// apiRouter.post('/login/',loginValidator,authCtrl.login);
 
 module.exports= apiRouter;

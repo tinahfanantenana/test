@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const userRoute=require('./routers/userRouter');
+// const userRoute=require('./routers/userRouter');
 const authRoute=require('./routers/authRouter');
 
 
@@ -11,7 +11,7 @@ server.use(express.urlencoded({extended: true}));
 
 
 server.use('/auth', authRoute);
-server.use('/user',userRoute);
+// server.use('/user',userRoute);
 
 server.get('/',function(req,res){
     res.status(200);

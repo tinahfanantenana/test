@@ -1,5 +1,5 @@
 const express= require('express');
-const userCtrl=require ('../controllers/userCtl');
+const userCtrl=require ('../controllers/userCtrl');
 const userApi= express.Router();
 
 userApi.get('/me',protect,userCtrl.getProfil);
